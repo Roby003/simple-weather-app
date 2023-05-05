@@ -12,7 +12,7 @@ async function getTemperature(city, tUnit) {
         })
     await fetch(`${apiUrl}?latitude=${lat}&longitude=${lon}&current_weather=true&temperature_unit=${tUnit}&timezone=auto&hourly=temperature_2m&`)
         .then(response => response.json())
-        .then(data => {
+        .then(async (data) => {
             console.log(data);
             const temperatureDiv = document.getElementById("temp");
             const temperatureData = data.current_weather.temperature;
@@ -25,16 +25,32 @@ async function getTemperature(city, tUnit) {
             const divs = document.getElementsByClassName('temp2');
             const divs2 = document.getElementsByClassName('time');
             if (tUnit === 'celsius') {
+
                 for (let i = 0; i < divs.length; i++) {
-                    divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}°C`;
-                    divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
+
+                    await new Promise(res => {
+                        setTimeout(() => {
+                            divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}°C`;
+                            divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
+                            res();
+                        }, 500);
+                    })
                 }
+
             }
             else {
-                for (let i = 0; i < divs.length; i++) {
-                    divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}F`;
-                    divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
-                }
+                let i = 0;
+                await new Promise(res => {
+                    const intervalId = setInterval(() => {
+                        if (i >= divs.length) {
+                            clearInterval(intervalId);
+                            res();
+                        }
+                        divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}F`;
+                        divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
+                        i++;
+                    }, 50);
+                });
             }
         })
         .catch(error => {
@@ -46,8 +62,9 @@ function submitCity() {
     event.preventDefault();
     let inputElement = document.getElementById("city-name");
     let city = inputElement.value;
-    if(regex.test(city))
-    updateDegreeType(city);
+    localStorage.setItem('city', city);
+    if (regex.test(city))
+        updateDegreeType(city);
     else
         alert("city name not valid");
 }
@@ -55,21 +72,38 @@ function submitCity() {
 async function updateDegreeType(city) {
     let selectElement = document.getElementById("degreeSelect");
     let degreeType = selectElement.value;
+    localStorage.setItem('degree', degreeType);
     await getTemperature(city, degreeType);
-    changeEmoji();
+    changeEmoji(degreeType);
 
 }
-async function changeEmoji() {
+async function changeEmoji(degree) {
     const divs = document.getElementsByClassName('card');
-    for (let i = 0; i < divs.length; i++) {  
-        if (divs[i].getElementsByClassName('temp2')[0].innerText > '15') {
-            divs[i].classList.remove('ice');
-            divs[i].classList.add('hot');
+
+    for (let i = 0; i < divs.length; i++) {
+        if (degree === 'celsius') {
+            if (divs[i].getElementsByClassName('temp2')[0].innerText > '15') {
+                divs[i].classList.remove('ice');
+                divs[i].classList.add('hot');
+            }
+            else {
+                divs[i].classList.remove('hot');
+                divs[i].classList.add('ice');
+            }
         }
         else {
-            divs[i].classList.remove('hot');
-            divs[i].classList.add('ice');
+            if (divs[i].getElementsByClassName('temp2')[0].innerText > '59') {
+                divs[i].classList.remove('ice');
+                divs[i].classList.add('hot');
+            }
+            else {
+                divs[i].classList.remove('hot');
+                divs[i].classList.add('ice');
+            }
         }
     }
-
 }
+window.addEventListener('load', () => {
+    document.querySelector('select').value = localStorage.getItem('degree');
+    document.querySelector('input').value = localStorage.getItem('city');
+})
