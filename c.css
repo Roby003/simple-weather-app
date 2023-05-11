@@ -1,13 +1,18 @@
 body {
     background-color: #6faef1;
 }
-
+@media screen and (max-width: 600px)
+{
+    body {
+        background-color: orange;
+    }
+}
 div {
     color: black;
 }
 
 .container {
-    display: flex;
+    display: grid;
     justify-content: flex-end;
 }
 
@@ -29,9 +34,13 @@ button[type="submit"] {
     border-radius: 0 5px 5px 0;
     cursor: pointer;
     margin-left: 3px;
+    transition: all 2s ease;
 }
-
-.dropdown {
+button[id="submit"]:hover {
+    background-color: red;
+    margin-right: 6px;
+  }
+.dropdown2 {
     margin-right: 10px;
 }
 
@@ -102,7 +111,21 @@ select:focus {
 .card:hover .temp {
     display: none;
 }
-
+@keyframes animate {
+    0% {
+      transform: scale(1);
+      background-color: red;
+    }
+    50% {
+      transform: scale(1.5);
+      background-color: yellowgreen;
+    }
+    100% {
+      transform: scale(1);
+      background-color: blue;
+    }
+  }
+  
 .ice:hover::before {
     content: "\1F976";
     font-size: 5rem;
@@ -114,6 +137,7 @@ select:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: animate 1s infinite;
 }
 .hot:hover::before {
     content: "\1F31E";
@@ -126,4 +150,53 @@ select:focus {
     display: flex;
     justify-content: center;
     align-items: center;
+    animation: animate 1s infinite;
 }
+/* Dropdown button */
+.dropbtn {
+    background-color: #0070c9;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: all 2s ease;
+  }
+  
+  .dropbtn:hover {
+    margin-right: 6px;
+  }
+  
+  /* Dropdown container */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown content */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    background-color: #f2f2f2;
+    border-radius: 5px;
+  }
+  
+  /* Dropdown links */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+  
+  

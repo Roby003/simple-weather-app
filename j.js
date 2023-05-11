@@ -33,7 +33,7 @@ async function getTemperature(city, tUnit) {
                             divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}°C`;
                             divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
                             res();
-                        }, 500);
+                        }, Math.random() *1000);
                     })
                 }
 
@@ -49,7 +49,7 @@ async function getTemperature(city, tUnit) {
                         divs[i].innerText = `${data.hourly.temperature_2m[index + i + 1]}F`;
                         divs2[i].innerText = data.hourly.time[index + i + 1].slice(-5);
                         i++;
-                    }, 50);
+                    }, Math.random() *1000);
                 });
             }
         })
@@ -106,4 +106,26 @@ async function changeEmoji(degree) {
 window.addEventListener('load', () => {
     document.querySelector('select').value = localStorage.getItem('degree');
     document.querySelector('input').value = localStorage.getItem('city');
-})
+    document.getElementById('dark').addEventListener('click', () => {
+        document.body.style.backgroundColor = 'black';
+        document.querySelectorAll('.card').forEach(div => {
+        div.style.backgroundColor = 'grey';
+        });
+        document.querySelector('select').style.backgroundColor = 'grey';
+        document.querySelector('input').style.backgroundColor = 'grey';
+        document.querySelectorAll('a').forEach(a=>{
+            a.style.backgroundColor = 'grey';
+        });
+    });
+    document.getElementById('light').addEventListener('click', () => {
+        document.body.style.backgroundColor =  '#6faef1';
+        document.querySelectorAll('.card').forEach(div => {
+        div.style.backgroundColor = 'white';
+        });
+        document.querySelector('select').style.backgroundColor = 'white';
+        document.querySelector('input').style.backgroundColor = 'white';
+        document.querySelectorAll('a').forEach(a=>{
+            a.style.backgroundColor = 'white';
+        });
+    });
+});

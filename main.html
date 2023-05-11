@@ -18,18 +18,26 @@
         <i class="fas fa-thermometer-half"> Current temperature:</i>
         <span id="temp"></span>
       </div>
+      <div class="dropdown">
+        <button class="dropbtn">Dropdown</button>
+        <div class="dropdown-content">
+          <a href="#" id="light">Light Mode</a>
+          <a href="#" id="dark">Dark Mode</a>
+        </div>
+      </div>
       
     <div class="container">
-        <div class="dropdown">
+      <form>
+        <input type="text" id="city-name" placeholder="Enter city name here">
+        <button type="submit" onclick=submitCity() id="submit">Submit</button>
+    </form>  
+      <div class="dropdown2">
             <select id="degreeSelect" >
                 <option value="celsius">Celsius</option>
                 <option value="fahrenheit">Fahrenheit</option>
             </select>
         </div>
-        <form>
-            <input type="text" id="city-name" placeholder="Enter city name here">
-            <button type="submit" onclick="submitCity()">Submit</button>
-        </form>
+      
 
     </div>
     
