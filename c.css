@@ -198,5 +198,17 @@ select:focus {
   .dropdown:hover .dropdown-content {
     display: block;
   }
+  footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px;
+  }
+  
+  #footer-button {
+    margin: 0 auto;
+  }
+  
   
   
