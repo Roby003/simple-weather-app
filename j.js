@@ -42,7 +42,7 @@ async function getTemperature(city, tUnit) {
                 let i = 0;
                 await new Promise(res => {
                     const intervalId = setInterval(() => {
-                        if (i >= divs.length) {
+                        if (i >= divs.length-1) {
                             clearInterval(intervalId);
                             res();
                         }
@@ -106,6 +106,11 @@ async function changeEmoji(degree) {
 window.addEventListener('load', () => {
     document.querySelector('select').value = localStorage.getItem('degree');
     document.querySelector('input').value = localStorage.getItem('city');
+    document.getElementById('card_delete').addEventListener('click', () => {
+        const cards = document.getElementsByClassName('card');
+        const column = document.getElementsByClassName('column');
+        column[0].removeChild(cards[cards.length - 1]);
+    });
     document.getElementById('dark').addEventListener('click', () => {
         document.body.style.backgroundColor = 'black';
         document.querySelectorAll('.card').forEach(div => {
@@ -116,6 +121,7 @@ window.addEventListener('load', () => {
         document.querySelectorAll('a').forEach(a=>{
             a.style.backgroundColor = 'grey';
         });
+   
     });
     document.getElementById('light').addEventListener('click', () => {
         document.body.style.backgroundColor =  '#6faef1';
@@ -128,4 +134,15 @@ window.addEventListener('load', () => {
             a.style.backgroundColor = 'white';
         });
     });
+    document.getElementById('add_cards').addEventListener('click',()=>{
+        const rand=(Math.random()*100)%10;
+        const column= document.getElementsByClassName('column');
+       
+        for(let i=0;i<rand;i++){
+        const div=document.createElement('div');
+        div.classList.add('card');
+        div.classList.add('ice');
+        div.innerHTML=`<div class="time"></div>
+        <div class="temp2"></div>`;
+        column[0].appendChild(div);}});
 });
